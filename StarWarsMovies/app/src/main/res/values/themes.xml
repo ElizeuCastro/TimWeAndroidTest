@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.StarWarsMovies" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.StarWarsMovies" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -22,4 +22,15 @@
     <style name="Theme.StarWarsMovies.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.StarWarsMovies.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Theme.StarWarsMovies.MovieTitle">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Theme.StarWarsMovies.MovieLabels">
+        <item name="android:textColor">@color/movie_label_color</item>
+        <item name="android:textSize">14sp</item>
+    </style>
 </resources>
