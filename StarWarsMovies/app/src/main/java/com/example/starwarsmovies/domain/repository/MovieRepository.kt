@@ -1,8 +1,9 @@
 package com.example.starwarsmovies.domain.repository
 
-import com.example.starwarsmovies.data.remote.MoviesResponse
+import com.example.starwarsmovies.common.Resource
+import com.example.starwarsmovies.domain.model.Movie
 
 interface MovieRepository {
 
-    suspend fun getMovies(): List<MoviesResponse>
+    suspend fun getMovies(): Resource<List<Movie>>
 }

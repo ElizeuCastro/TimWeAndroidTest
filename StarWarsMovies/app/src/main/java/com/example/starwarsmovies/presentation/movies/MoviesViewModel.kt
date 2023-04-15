@@ -1,24 +1,19 @@
 package com.example.starwarsmovies.presentation.movies
 
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.starwarsmovies.common.Constants
 import com.example.starwarsmovies.common.Resource
 import com.example.starwarsmovies.domain.model.Movie
 import com.example.starwarsmovies.domain.useCase.GetMovieUseCase
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 class MoviesViewModel(
     private val getMovieUseCase: GetMovieUseCase,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(MoviesListState())
-    val state: StateFlow<MoviesListState> = _state
+    private val _state = MutableLiveData(MoviesListState())
+    val state: LiveData<MoviesListState> = _state
 
     init {
         savedStateHandle.get<List<Movie>>(Constants.MOVIES_LIST_KEY)?.let { savedMovies ->
@@ -29,8 +24,9 @@ class MoviesViewModel(
     }
 
     private fun getMovies() {
-        getMovieUseCase().onEach { result ->
-            when (result) {
+        viewModelScope.launch {
+            _state.value = MoviesListState(isLoading = true)
+            when (val result = getMovieUseCase()) {
                 is Resource.Success -> {
                     val movies = result.data ?: emptyList()
                     _state.value = MoviesListState(movies = movies)
@@ -45,6 +41,6 @@ class MoviesViewModel(
                     _state.value = MoviesListState(isLoading = true)
                 }
             }
-        }.launchIn(viewModelScope)
+        }
     }
 }

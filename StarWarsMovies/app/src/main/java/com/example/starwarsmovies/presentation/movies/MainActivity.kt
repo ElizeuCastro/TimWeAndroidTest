@@ -27,31 +27,27 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.state.collect { state ->
-                    if (state.isLoading) {
-                        binding.progressBar.isVisible = true
-                        binding.tvError.isVisible = false
-                        binding.rvMovies.isVisible = false
-                    }
-                    if (state.error.isNotBlank()) {
-                        binding.progressBar.isVisible = false
-                        binding.tvError.isVisible = false
-                        binding.rvMovies.isVisible = true
+        viewModel.state.observe(this) { state ->
+            if (state.isLoading) {
+                binding.progressBar.isVisible = true
+                binding.tvError.isVisible = false
+                binding.rvMovies.isVisible = false
+            }
+            if (state.error.isNotBlank()) {
+                binding.progressBar.isVisible = false
+                binding.tvError.isVisible = false
+                binding.rvMovies.isVisible = true
 
-                        binding.tvError.text = state.error
-                    }
-                    if (state.movies.isNotEmpty()) {
-                        binding.progressBar.isVisible = false
-                        binding.tvError.isVisible = false
-                        binding.rvMovies.isVisible = true
+                binding.tvError.text = state.error
+            }
+            if (state.movies.isNotEmpty()) {
+                binding.progressBar.isVisible = false
+                binding.tvError.isVisible = false
+                binding.rvMovies.isVisible = true
 
-                        val adapter = MoviesAdapter()
-                        binding.rvMovies.adapter = adapter
-                        adapter.submitList(state.movies)
-                    }
-                }
+                val adapter = MoviesAdapter()
+                binding.rvMovies.adapter = adapter
+                adapter.submitList(state.movies)
             }
         }
 
