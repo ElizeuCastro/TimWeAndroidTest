@@ -2,12 +2,14 @@ package com.example.starwarsmovies.presentation.movies
 
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
 import com.example.starwarsmovies.R
+import com.example.starwarsmovies.common.EspressoIdlingResource
 import com.example.starwarsmovies.common.Resource
 import com.example.starwarsmovies.data.di.DataModule
 import com.example.starwarsmovies.domain.model.Movie
@@ -70,13 +72,13 @@ class MainActivityTest {
             )
         }
 
-//        IdlingRegistry.getInstance().register(EspressoIdlingResource.countingIdlingResource)
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.countingIdlingResource)
     }
 
     @After
     fun unregisterIdlingResource() {
         stopKoin()
-//        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.countingIdlingResource)
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.countingIdlingResource)
     }
 
     @Test

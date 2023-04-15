@@ -16,8 +16,6 @@ ext {
     moshi_version = '1.8.0'
     retrofit_version = '2.9.0'
     okhttp_version = '5.0.0-alpha.2'
-    picasso_version = '2.71828'
-    circleimageview_version = '3.0.0'
 
     junit_version = '4.13.2'
     mockito_version = '2.27.0'
