@@ -51,13 +51,14 @@ class MoviesViewModelTest {
         coEvery { movieUseCase() } returns Resource.Success(mockedMovies)
 
         moviesViewModel = MoviesViewModel(movieUseCase, SavedStateHandle())
-
         advanceUntilIdle()
 
+        val stateResult = moviesViewModel.state.getOrAwaitValue()
+
         coVerify(exactly = 1) { movieUseCase() }
-        assertEquals(false, moviesViewModel.state.getOrAwaitValue().isLoading)
-        assertEquals("", moviesViewModel.state.getOrAwaitValue().error)
-        assertEquals(mockedMovies, moviesViewModel.state.getOrAwaitValue().movies)
+        assertEquals(false, stateResult.isLoading)
+        assertEquals("", stateResult.error)
+        assertEquals(mockedMovies, stateResult.movies)
 
     }
 
@@ -67,13 +68,14 @@ class MoviesViewModelTest {
         coEvery { movieUseCase() } returns Resource.Error("Any Error")
 
         moviesViewModel = MoviesViewModel(movieUseCase, SavedStateHandle())
-
         advanceUntilIdle()
 
+        val stateResult = moviesViewModel.state.getOrAwaitValue()
+
         coVerify(exactly = 1) { movieUseCase() }
-        assertEquals(false, moviesViewModel.state.getOrAwaitValue().isLoading)
-        assertEquals(mockedError, moviesViewModel.state.getOrAwaitValue().error)
-        assertEquals(0, moviesViewModel.state.getOrAwaitValue().movies.size)
+        assertEquals(false, stateResult.isLoading)
+        assertEquals(mockedError, stateResult.error)
+        assertEquals(0, stateResult.movies.size)
     }
 
     @Test
@@ -84,10 +86,12 @@ class MoviesViewModelTest {
 
         moviesViewModel = MoviesViewModel(movieUseCase, savedStateHandle)
 
+        val stateResult = moviesViewModel.state.getOrAwaitValue()
+
         coVerify(exactly = 0) { movieUseCase() }
-        assertEquals(false, moviesViewModel.state.getOrAwaitValue().isLoading)
-        assertEquals("", moviesViewModel.state.getOrAwaitValue().error)
-        assertEquals(mockedMovies, moviesViewModel.state.getOrAwaitValue().movies)
+        assertEquals(false, stateResult.isLoading)
+        assertEquals("", stateResult.error)
+        assertEquals(mockedMovies, stateResult.movies)
     }
 
     private fun provideMockedMovies() = listOf(
