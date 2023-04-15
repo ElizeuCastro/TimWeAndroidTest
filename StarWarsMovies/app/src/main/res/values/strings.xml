@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">StarWarsMovies</string>
     <string name="movies_title_screen">Filmes de Star Wars</string>
-    <string name="image_description">Image: %s</string>
+    <string name="image_description">Imagem: %s</string>
+    <string name="movie_item_title">Star Wars - Episódio %s: %s</string>
     <string name="director">Diretor:</string>
     <string name="release_date">Data de lançamento:</string>
 </resources>
